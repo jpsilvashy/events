@@ -18,15 +18,7 @@
 </head>
 <body>
 
-<!--
-<div class="ui toggle checkbox">
-  <input type="checkbox" name="stream">
-  <label id='status'></label>
-</div>
--->
-
   <span id='status'></span>
-
   <div class="ui divider"></div>
 
   <div class="ui grid">
@@ -50,6 +42,34 @@
         <h4 class="ui header">Listeners</h4>
         <div class='ui divider'></div>
         <p><strong>Available transports:</strong> <span id='transport'></span></p>
+      </div>
+
+      <div class="ui small form segment">
+        <h4 class="ui header">Send Event</h4>
+        <div class='ui divider'></div>
+
+        <div class="ui three fields">
+          <div class="field">
+            <input type="text" placeholder="bar">
+          </div>
+          <div class="field">
+            <input type="text" placeholder="foo">
+          </div>
+          <div class="field">
+            <div class="ui toggle checkbox">
+              <input type="checkbox" name="notify">
+              <label>Notify</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Event</label>
+          <textarea></textarea>
+        </div>
+
+        <a class="ui submit button">Send</a>
+
       </div>
     </div>
   </div>
