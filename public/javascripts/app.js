@@ -1,15 +1,14 @@
 $(function(){
 
-  // $('.ui.checkbox').checkbox();
+  $('.ui.checkbox').checkbox();
 
   var socket = io.connect(window.location.hostname);
 
   $('#transport').html(io.transports);
 
   socket.on('event', function(data) {
-    console.log(this);
-    // console.log(data);
-    $('#events').append('<li>' + data + '</li>')
+    console.log(data);
+    $('#events').prepend('<div class="event"><div class="content">' + data + '</div></div>')
     $('#transport').html(io.transports);
   });
 
