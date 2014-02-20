@@ -4,6 +4,7 @@
 
 var express = require('express'),
   routes = require('./routes'),
+  create = require('./routes/create'),
   http = require('http');
 
 var app = express();
@@ -13,13 +14,22 @@ var io = require('socket.io').listen(server);
 // Redis
 if (process.env.REDISTOGO_URL) {
   var redisUrl = require("url").parse(process.env.REDISTOGO_URL);
-  redis = require("redis").createClient(redisUrl.port, redisUrl.hostname);
-  redis.auth(redisUrl.auth.split(":")[1]);
+  subscriber = require("redis").createClient(redisUrl.port, redisUrl.hostname);
+  subscriber.auth(redisUrl.auth.split(":")[1]);
+
+  publisher = require("redis").createClient(redisUrl.port, redisUrl.hostname);
+  publisher.auth(redisUrl.auth.split(":")[1]);
+
 } else {
-  redis = require("redis").createClient();
+  subscriber = require("redis").createClient();
+  publisher = require("redis").createClient();
 }
 
-redis.on("error", function (err) {
+subscriber.on("error", function (err) {
+  console.log("Error " + err);
+});
+
+publisher.on("error", function (err) {
   console.log("Error " + err);
 });
 
@@ -44,7 +54,6 @@ app.configure('development', function(){
 });
 
 messageCount = 0;
-subscriber = redis;
 // var channel = req.params.channel;
 channel = "events.*";
 
@@ -66,5 +75,6 @@ io.sockets.on('connection', function(socket) {
 });
 
 app.get('/', routes.index);
+app.post('/', create.create); // for posting new events
 
 console.log("Express server listening on port 3000");

@@ -1,3 +1,8 @@
 body {
   padding: 20px;
 }
+
+.ui.grid > .column, .ui.grid > .row > .column {
+  /*padding-left: 0;*/
+  /*padding-right: 0;*/
+}
