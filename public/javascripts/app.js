@@ -1,38 +1,40 @@
+function insertIntoStream(data) {
+  console.log(data);
+  $('#events').prepend('<div class="event"><div class="content">' + data.message + '</div></div>')
+}
+
+function updateStatus(status, color) {
+  console.log(status);
+  $('#status').html("<span class='ui " + color + " label'>" + status + "</span>");
+  $('#transport').html(io.transports.join(", "));
+}
+
 $(function(){
 
   $('.ui.checkbox').checkbox();
 
   var socket = io.connect(window.location.hostname);
 
-  $('#transport').html(io.transports);
+  $('#transport').html(io.transports.join(", "));
 
   socket.on('event', function(data) {
-    console.log(data);
-    $('#events').prepend('<div class="event"><div class="content">' + data + '</div></div>')
-    $('#transport').html(io.transports);
+    insertIntoStream(data);
   });
 
   socket.on('error', function(event) {
-    console.log('error');
-    $('#status').html('error connecting to stream');
-    $('#transport').html(io.transports);
+    updateStatus('error', 'red');
   });
 
   socket.on('connect', function(event) {
-    console.log('connect');
-    $('#status').html('connected')
-    $('#transport').html(io.transports);
+    updateStatus('connected', 'green');
   });
 
   socket.on('disconnect', function(event) {
-    console.log('disconnected from stream');
-    $('#status').html('disconnect')
-    $('#transport').html(io.transports);
+    updateStatus('disconnected', 'red');
   });
 
   socket.on('newListener', function(event) {
     console.log('newListener');
-    $('#transport').html(io.transports);
   });
 
 });

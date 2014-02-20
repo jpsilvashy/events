@@ -43,22 +43,26 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-var messageCount = 0;
-var subscriber = redis;
+messageCount = 0;
+subscriber = redis;
 // var channel = req.params.channel;
-var channel = "events.*";
+channel = "events.*";
 
 subscriber.psubscribe(channel);
 
 subscriber.on("pmessage", function(pattern, channel, message) {
   messageCount++; // Increment our message count
+
+  var message = JSON.parse(message);
+
   console.log(pattern, channel, message);
+
   io.sockets.emit('event', message);
 });
 
 io.sockets.on('connection', function(socket) {
   console.log('socket.id: ', socket.id);
-  socket.emit('event', 'connected');
+  socket.emit('event', { message: 'connected' });
 });
 
 app.get('/', routes.index);
