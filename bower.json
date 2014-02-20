@@ -1,0 +1,18 @@
+{
+  "name": "jpsilvashy-events",
+  "version": "0.0.0",
+  "authors": [
+    "Joseph Silvashy <jpsilvashy@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic-ui": "*"
+  }
+}

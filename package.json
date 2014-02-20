@@ -1,0 +1,25 @@
+{
+  "name": "jpsilvashy-events",
+  "version": "0.0.2-3",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jpsilvashy/events.git"
+  },
+  "dependencies": {
+    "redis": "*",
+    "express": "*",
+    "socket.io": "*",
+    "ejs": "*"
+  },
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  },
+  "subdomain": "jpsilvashy-events",
+  "domains": [
+    "events.jpsilvashy.com"
+  ],
+  "scripts": {
+    "start": "node server.js"
+  }
+}

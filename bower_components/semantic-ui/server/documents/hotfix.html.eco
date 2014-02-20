@@ -1,0 +1,26 @@
+---
+layout : 'default'
+css    : 'hotfix'
+
+title  : 'Test Page'
+type   : 'Library'
+---
+<%- @partial('header') %>
+<script src="/build/uncompressed/modules/behavior/form.js"></script>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+  $('#smile').popup({on: 'click'});
+  $('#frown').popup({on: 'click'});
+});
+
+</script>
+
+<div class="main container">
+  <div id="smile" class="ui labeled icon button" title="You can see this">
+      <i class="smile icon"></i>Click me first
+  </div>
+  <div id="frown" class="ui labeled icon button" title="You can't see this">
+      <i class="frown icon"></i>Then click me
+  </div>
+</div>
