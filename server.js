@@ -7,8 +7,10 @@ var express = require('express'),
   create = require('./routes/create'),
   http = require('http');
 
+var port = process.env.PORT || 8080;
+
 var app = express();
-var server = app.listen(8080);
+var server = app.listen(port);
 var io = require('socket.io').listen(server);
 
 // Redis
@@ -38,13 +40,17 @@ app.configure(function(){
 
   app.engine('.html', require('ejs').__express);
   app.set('view engine', 'html');
+  app.set('port', 'html');
 
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.static(__dirname + '/public'));
   app.use(express.static(__dirname + '/bower_components'));
 
-  app.use(express.bodyParser());
+  app.use(express.json());
+  app.use(express.urlencoded());
+  // app.use(express.multipart());
+
   app.use(express.methodOverride());
   app.use(app.router);
 });
@@ -53,21 +59,8 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-messageCount = 0;
-// var channel = req.params.channel;
-channel = "events.*";
-
-subscriber.psubscribe(channel);
-
-subscriber.on("pmessage", function(pattern, channel, message) {
-  messageCount++; // Increment our message count
-
-  var message = JSON.parse(message);
-
-  console.log(pattern, channel, message);
-
-  io.sockets.emit('event', message);
-});
+// handle Redis subscribers
+require('./lib/subscriber');
 
 io.sockets.on('connection', function(socket) {
   console.log('socket.id: ', socket.id);
@@ -77,4 +70,5 @@ io.sockets.on('connection', function(socket) {
 app.get('/', routes.index);
 app.post('/', create.create); // for posting new events
 
-console.log("Express server listening on port 3000");
+console.log("Express listening on " + port);
+
