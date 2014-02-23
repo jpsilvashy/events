@@ -18,39 +18,33 @@
 </head>
 <body>
 
-  <span id='status'></span>
-  <div class="ui divider"></div>
-
   <div class="two column stackable ui grid">
     <div class="ten wide column">
-      <div id='events' class="ui feed feed">
-
-      </div>
+      <div id='events' class="ui feed"></div>
     </div>
 
     <div class="six wide column">
       <div class="ui small feed segment">
-        <h4 class="ui header">Listeners</h4>
+        <div class="ui action input">
+          <input type="text" value="<%= channel %>" placeholder='channel'>
+          <div class="ui teal right labeled icon button"><i class="exchange icon"></i> Channel</div>
+        </div>
+
         <div class='ui divider'></div>
         <p><strong>Available transports:</strong> <span id='transport'></span></p>
+        <span id='status'></span>
       </div>
 
       <div class="ui small form segment">
         <h4 class="ui header">Send Event</h4>
         <div class='ui divider'></div>
 
-        <div class="ui three fields">
+        <div class="ui two fields">
           <div class="field">
             <input type="text" placeholder="bar">
           </div>
           <div class="field">
             <input type="text" placeholder="foo">
-          </div>
-          <div class="field">
-            <div class="ui toggle checkbox">
-              <input type="checkbox" name="notify">
-              <label>Notify</label>
-            </div>
           </div>
         </div>
 
@@ -60,8 +54,15 @@
         </div>
 
         <div class="ui blue submit button">Send</div>
-
       </div>
+
+      <div class="field">
+        <div class="ui toggle checkbox">
+          <input type="checkbox" name="notify">
+          <label><i class="volume up icon"></i> Notify</label>
+        </div>
+      </div>
+
     </div>
   </div>
 

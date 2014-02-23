@@ -2,12 +2,17 @@ body {
   padding: 20px;
 }
 
-.ui.grid > .column, .ui.grid > .row > .column {
-  /*padding-left: 0;*/
-  /*padding-right: 0;*/
+.ui.grid > .column,
+.ui.grid > .row > .column {
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.field .ui.toggle.checkbox {
-  margin-top: 0.88rem;
-  margin-left: 8px;
+.ui.grid > .column {
+  margin-bottom: 0.25rem;
+  margin-top: 0;
+}
+
+.ui.feed .content {
+  padding-right: 20px;
 }

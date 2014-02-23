@@ -1,7 +1,20 @@
 function insertIntoStream(data) {
   console.log(data);
-  $('#events').prepend('<div class="event"><div class="content">' + data.message + '</div></div>')
+
+  var timestamp = 'timestamp';
+  var params = 'params';
+
+  var html = '<div class="event">' +
+    '<div class="content">' +
+      '<div class="date">' + data.timestamp + '</div>' +
+      '<div class="summary">' + data.message + '</div>' +
+      '<div class="extra text">' + data.params + '</div>' +
+    '</div>' +
+  '</div>'
+
+  $('#events').prepend(html);
 }
+
 
 function updateStatus(status, color) {
   console.log(status);

@@ -62,13 +62,13 @@ app.configure('development', function(){
 // handle Redis subscribers
 require('./lib/subscriber');
 
-io.sockets.on('connection', function(socket) {
-  console.log('socket.id: ', socket.id);
-  socket.emit('event', { message: 'connected' });
-});
-
 app.get('/', routes.index);
 app.post('/', create.create); // for posting new events
+
+io.sockets.on('connection', function(socket) {
+  console.log('socket.id: ', socket.id);
+  socket.emit('event', { message: 'connected', timestamp: Date.now(), params: {} });
+});
 
 console.log("Express listening on " + port);
 

@@ -1,4 +1,8 @@
 // handle get requests to site index
 exports.index = function(req, res) {
-  res.render('index');
+
+  var channel = req.query.channel || 'events.*';
+  console.log(channel);
+
+  res.render('index', { channel: channel });
 };

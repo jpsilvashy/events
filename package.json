@@ -1,6 +1,6 @@
 {
   "name": "jpsilvashy-events",
-  "version": "0.0.3-3",
+  "version": "0.0.3-4",
   "repository": {
     "type": "git",
     "url": "git://github.com/jpsilvashy/events.git"
@@ -10,6 +10,9 @@
     "express": "*",
     "socket.io": "*",
     "ejs": "*"
+  },
+  "devDependencies": {
+    "mocha": "0.3.x"
   },
   "engines": {
     "node": "*",
