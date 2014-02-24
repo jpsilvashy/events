@@ -13,6 +13,8 @@ var app = express();
 var server = app.listen(port);
 var io = require('socket.io').listen(server);
 
+var messageHandler = require('./lib/message');
+
 // Redis
 if (process.env.REDISTOGO_URL) {
   var redisUrl = require("url").parse(process.env.REDISTOGO_URL);
@@ -57,31 +59,23 @@ app.configure(function(){
 
 
 io.sockets.on('connection', function(socket) {
-  console.log('socket.id: ', socket.id);
-  socket.emit('event', { message: 'connected', timestamp: Date.now(), params: {} });
+  messageHandler.emit(socket, '*', '*', { message: 'connected'})
 });
 
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-// handle Redis subscribers
-// require('./lib/subscriber');
 
+// Handle subscribers
 messageCount = 0;
-// var channel = req.params.channel;
 channel = "events.*";
+// var channel = req.params.channel;
 
 subscriber.psubscribe(channel);
 
 subscriber.on("pmessage", function(pattern, channel, message) {
-  messageCount++; // Increment our message count
-
-  var message = JSON.parse(message);
-
-  console.log(pattern, channel, message);
-
-  io.sockets.emit('event', message);
+  messageHandler.emit(io.sockets, pattern, channel, message)
 });
 
 app.get('/', routes.index);

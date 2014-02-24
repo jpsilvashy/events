@@ -1,12 +1,17 @@
 // Handle post requests to /
 exports.create = function(req, res) {
 
-  console.log('post recieved!')
-  console.log(req.body)
+  console.log('post')
+  console.log('=============================')
 
-  var timestamp = req.query.timestamp || Date.now()
-  var params = req.query.params || {}
+  var message = {
+    message: JSON.stringify(req.body) || 'POST recieved',
+    timestamp: req.body.timestamp || new Date(),
+    params: { lorem: 'ipsum' }
+  }
 
-  publisher.publish(req.body.channel || "events", JSON.stringify(req.body));
+  console.log(message);
+
+  publisher.publish('events.foo', message.message);
   res.send(200);
 };

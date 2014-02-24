@@ -16,3 +16,16 @@ body {
 .ui.feed .content {
   padding-right: 20px;
 }
+
+.ui.feed .content pre.params.extra {
+  color: #bfbfbf;
+}
+
+.ui.feed .content pre.params.extra .key {
+  color: #818181;
+}
+
+.ui.feed .content pre.params.extra .string {
+  color: #474747;
+  font-weight: bold;
+}

@@ -1,28 +1,57 @@
 function insertIntoStream(data) {
-  console.log(data);
+  var data = JSON.parse(data);
 
-  var timestamp = 'timestamp';
-  var params = 'params';
+  console.log(data);
 
   var html = '<div class="event">' +
     '<div class="content">' +
-      '<div class="date">' + data.timestamp + '</div>' +
-      '<div class="summary">' + data.message + '</div>' +
-      '<div class="extra text">' + data.params + '</div>' +
+      '<time class="timeago date" datetime=' + data.timestamp + '>' + data.timestamp + '</time>' +
+      '<div class="summary">' + data.message.message + '</div>' +
+      '<pre class="extra text params">' + prettyPrintJson(data) + '</pre>' +
     '</div>' +
   '</div>'
 
-  $('#events').prepend(html);
+  $('#events').prepend(html).find('time').timeago();
 }
 
-
 function updateStatus(status, color) {
-  console.log(status);
+  console.log({ status: status });
   $('#status').html("<span class='ui " + color + " label'>" + status + "</span>");
   $('#transport').html(io.transports.join(", "));
 }
 
+function prettyPrintJson(json) {
+  if (typeof json != 'string') {
+   json = JSON.stringify(json, undefined, 2);
+  }
+
+  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+    var cls = 'number';
+    if (/^"/.test(match)) {
+      if (/:$/.test(match)) {
+        cls = 'key';
+      } else {
+        cls = 'string';
+      }
+    } else if (/true|false/.test(match)) {
+      cls = 'boolean';
+    } else if (/null/.test(match)) {
+      cls = 'null';
+    }
+
+    return '<span class="' + cls + '">' + match + '</span>';
+  });
+}
+
+function toggleParams() {
+  $('.ui.feed .extra').toggle();
+}
+
 $(function(){
+
+  $("time.timeago").timeago();
 
   $('.ui.checkbox').checkbox();
 
