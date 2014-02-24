@@ -55,20 +55,37 @@ app.configure(function(){
   app.use(app.router);
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
-
-// handle Redis subscribers
-require('./lib/subscriber');
-
-app.get('/', routes.index);
-app.post('/', create.create); // for posting new events
 
 io.sockets.on('connection', function(socket) {
   console.log('socket.id: ', socket.id);
   socket.emit('event', { message: 'connected', timestamp: Date.now(), params: {} });
 });
+
+app.configure('development', function(){
+  app.use(express.errorHandler());
+});
+
+// handle Redis subscribers
+// require('./lib/subscriber');
+
+messageCount = 0;
+// var channel = req.params.channel;
+channel = "events.*";
+
+subscriber.psubscribe(channel);
+
+subscriber.on("pmessage", function(pattern, channel, message) {
+  messageCount++; // Increment our message count
+
+  var message = JSON.parse(message);
+
+  console.log(pattern, channel, message);
+
+  io.sockets.emit('event', message);
+});
+
+app.get('/', routes.index);
+app.post('/', create.create); // for posting new events
 
 console.log("Express listening on " + port);
 
