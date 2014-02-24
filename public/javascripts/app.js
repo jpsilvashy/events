@@ -49,11 +49,44 @@ function toggleParams() {
   $('.ui.feed .extra').toggle();
 }
 
+
+
+
 $(function(){
 
   $("time.timeago").timeago();
 
   $('.ui.checkbox').checkbox();
+
+  // $('.ui.checkbox input:checkbox').click(function() {
+  //   if ($(this).is(':checked')) {
+  //     toggleParams()
+  //   } else {
+  //     toggleParams()
+  //   }
+  // });
+
+  $("#send-event").submit(function(event) {
+    event.preventDefault();
+
+    var eventData = $(this).serialize();
+
+    console.log(eventData);
+    console.log($("#send-event"));
+
+    $.ajax({
+      type: "POST",
+      url: "/",
+      data: eventData,
+      dataType: "json",
+      success: function(data) {
+        console.log(jQuery.parseJSON(data));
+      },
+      error: function(data){
+        console.log('error sending event: ', data);
+      }
+    });
+  })
 
   var socket = io.connect(window.location.hostname);
 

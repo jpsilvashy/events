@@ -35,17 +35,13 @@
         <span id='status'></span>
       </div>
 
-      <div class="ui small form segment">
+      <form action='/' id='send-event' class="ui small form segment">
         <h4 class="ui header">Send Event</h4>
         <div class='ui divider'></div>
 
-        <div class="ui two fields">
-          <div class="field">
-            <input type="text" placeholder="bar">
-          </div>
-          <div class="field">
-            <input type="text" placeholder="foo">
-          </div>
+        <div class="field">
+        <label>Channel</label>
+          <input type="text" placeholder="foo.bar">
         </div>
 
         <div class="field">
@@ -53,8 +49,8 @@
           <textarea></textarea>
         </div>
 
-        <div class="ui blue submit button">Send</div>
-      </div>
+        <button class="ui blue submit button">Send</button>
+      </form>
 
       <div class="field">
         <div class="ui toggle checkbox">
