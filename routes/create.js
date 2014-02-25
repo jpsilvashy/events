@@ -1,9 +1,6 @@
 // Handle post requests to /
 exports.create = function(req, res) {
 
-  console.log('post')
-  console.log('=============================')
-
   var message = {
     message: JSON.stringify(req.body) || 'POST recieved',
     timestamp: req.body.timestamp || new Date(),

@@ -1,12 +1,13 @@
 {
   "name": "jpsilvashy-events",
-  "version": "0.0.3-8",
+  "version": "0.0.3-9",
   "repository": {
     "type": "git",
     "url": "git://github.com/jpsilvashy/events.git"
   },
   "dependencies": {
     "redis": "*",
+    "connect-redis": "1.4.x",
     "express": "*",
     "socket.io": "*",
     "ejs": "*"

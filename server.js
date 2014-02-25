@@ -7,10 +7,8 @@ var express = require('express'),
   create = require('./routes/create'),
   http = require('http');
 
-var port = process.env.PORT || 8080;
-
 var app = express();
-var server = app.listen(port);
+var server = app.listen(process.env.PORT || 8080);
 var io = require('socket.io').listen(server);
 
 var messageHandler = require('./lib/message');
@@ -24,9 +22,17 @@ if (process.env.REDISTOGO_URL) {
   publisher = require("redis").createClient(redisUrl.port, redisUrl.hostname);
   publisher.auth(redisUrl.auth.split(":")[1]);
 
+  sessionStore = require("redis").createClient(redisUrl.port, redisUrl.hostname);
+  sessionStore.auth(redisUrl.auth.split(":")[1]);
+
+  RedisStore = require("connect-redis")(express);
+
 } else {
   subscriber = require("redis").createClient();
   publisher = require("redis").createClient();
+  sessionStore = require("redis").createClient();
+
+  RedisStore = require("connect-redis")(express);
 }
 
 subscriber.on("error", function (err) {
@@ -42,7 +48,6 @@ app.configure(function(){
 
   app.engine('.html', require('ejs').__express);
   app.set('view engine', 'html');
-  app.set('port', 'html');
 
   app.use(express.favicon());
   app.use(express.logger('dev'));
@@ -53,17 +58,24 @@ app.configure(function(){
   app.use(express.urlencoded());
   // app.use(express.multipart());
 
+  app.use(express.cookieParser());
+  app.use(express.session({
+    store: new RedisStore({ client: sessionStore }),
+    secret: '1234567890QWERTY',
+    key: 'jpsilvashy'
+  }));
+
   app.use(express.methodOverride());
   app.use(app.router);
 });
 
 
-io.sockets.on('connection', function(socket) {
-  messageHandler.emit(socket, '*', '*', { message: 'connected'})
+app.configure('development', function() {
+  app.use(express.errorHandler());
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
+io.sockets.on('connection', function(socket) {
+  messageHandler.emit(socket, '*', '*', { message: 'connected'})
 });
 
 
@@ -81,5 +93,5 @@ subscriber.on("pmessage", function(pattern, channel, message) {
 app.get('/', routes.index);
 app.post('/', create.create); // for posting new events
 
-console.log("Express listening on " + port);
+console.log("Express listening");
 

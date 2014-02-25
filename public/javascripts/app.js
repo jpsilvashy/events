@@ -1,3 +1,7 @@
+
+// Sound for when events occur
+var eventSound = new Audio("audio/recieve.wav");
+
 function insertIntoStream(data) {
   var data = JSON.parse(data);
 
@@ -12,6 +16,7 @@ function insertIntoStream(data) {
   '</div>'
 
   $('#events').prepend(html).find('time').timeago();
+  eventSound.play();
 }
 
 function updateStatus(status, color) {
@@ -22,7 +27,7 @@ function updateStatus(status, color) {
 
 function prettyPrintJson(json) {
   if (typeof json != 'string') {
-   json = JSON.stringify(json, undefined, 2);
+    json = JSON.stringify(json, undefined, 2);
   }
 
   json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -99,6 +104,7 @@ $(function(){
 
   socket.on('connect', function(event) {
     updateStatus('connected', 'green');
+
   });
 
   socket.on('disconnect', function(event) {
