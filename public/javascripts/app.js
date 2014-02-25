@@ -49,9 +49,6 @@ function toggleParams() {
   $('.ui.feed .extra').toggle();
 }
 
-
-
-
 $(function(){
 
   $("time.timeago").timeago();
