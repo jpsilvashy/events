@@ -5,6 +5,7 @@
 var express = require('express'),
   routes = require('./routes'),
   create = require('./routes/create'),
+  tracer = require('./routes/tracer');
   http = require('http');
 
 var app = express();
@@ -92,6 +93,7 @@ subscriber.on("pmessage", function(pattern, channel, message) {
 
 app.get('/', routes.index);
 app.post('/', create.create); // for posting new events
+app.post('/t', tracer.plot);
 
 console.log("Express listening");
 
