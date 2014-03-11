@@ -1,9 +1,17 @@
 ## Event Stream
 ### Node.js, Socket.io, Redis
 
+An event bus and relay written in Node
+
+### Running
+
+First be sure that Redis is running, then install the npm packages and start the server:
+
+    npm start
+
 Connect to the redis server on Redis-to-go like this:
 
-    redis-cli -h pearlfish.redistogo.com -p 9125 -a 486fe92f56169ff309a6dca4ef520d88
+    redis-cli -h hostname -p port -a password
 
 To publish events to the channel (which is hard-coded as "events.*")
 
@@ -12,7 +20,7 @@ To publish events to the channel (which is hard-coded as "events.*")
 
 If setting up a new deployment, be sure to set this env var:
 
-    jitsu env set REDISTOGO_URL redis://redistogo:486fe92f56169ff309a6dca4ef520d88@pearlfish.redistogo.com:9125
+    jitsu env set REDISTOGO_URL redis://redistogo:password@host:port
 
 ### Sending events
 
@@ -61,3 +69,7 @@ OK
  - Redis
  - Node.js
  - Socket.io
+
+### Issues
+
+Still needs tests, should have been TDD
