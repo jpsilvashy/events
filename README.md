@@ -8,6 +8,10 @@ An event bus and relay written in Node
 First be sure that Redis is running, then install the npm packages and start the server:
 
     npm start
+    
+If you navigate to `localhost:8080` you'll see:
+
+![](http://f.cl.ly/items/1v3Q261n1U1J3X1Z1a0z/Screen%20Shot%202014-03-11%20at%2012.02.33%20PM.png)
 
 Connect to the redis server on Redis-to-go like this:
 
